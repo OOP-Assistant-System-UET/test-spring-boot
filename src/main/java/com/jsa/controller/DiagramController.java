@@ -37,8 +37,9 @@ public class DiagramController {
                     HttpStatus.OK);
         }
         else {
+            Data data = new Data(dataMap.get(token),relationMap.get(token));
             return new ResponseEntity<>(
-                    new JsaResponse("success", classes,relationshipList),
+                    new JsaResponse("success", data),
                     HttpStatus.OK
             );
         }
@@ -51,19 +52,14 @@ public class DiagramController {
 class JsaResponse {
     private boolean error = false;
     private String message;
-    private ArrayList<ClassDecration> data;
-    private Object relationship;
+    private Object data;
 
-    public JsaResponse(String message, ArrayList<ClassDecration> data) {
+    public JsaResponse(String message, Object data) {
         this.message = message;
         this.data = data;
     }
-    public JsaResponse(String message, ArrayList<ClassDecration> data, Object relationship) {
-        this.message = message;
-        this.data = data;
-        this.relationship = relationship;
-    }
-    public JsaResponse(boolean error, String message, ArrayList<ClassDecration> data) {
+
+    public JsaResponse(boolean error, String message, Object data) {
         this.error = error;
         this.message = message;
         this.data = data;
@@ -93,15 +89,33 @@ class JsaResponse {
         return data;
     }
 
-    public void setData(ArrayList<ClassDecration> data) {
+    public void setData(Object data) {
         this.data = data;
     }
 
-    public Object getRelationship() {
-        return relationship;
+}
+class Data {
+    private ArrayList<ClassDecration> classes;
+    private RelationshipList relationships;
+
+    public Data(ArrayList<ClassDecration> classes, RelationshipList rl) {
+        this.classes = classes;
+        this.relationships = rl;
     }
 
-    public void setRelationship(Object relationship) {
-        this.relationship = relationship;
+    public ArrayList<ClassDecration> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(ArrayList<ClassDecration> classes) {
+        this.classes = classes;
+    }
+
+    public RelationshipList getRelationships() {
+        return relationships;
+    }
+
+    public void setRelationships(RelationshipList relationships) {
+        this.relationships = relationships;
     }
 }

@@ -39,6 +39,4 @@ public class DemoApplication {
     public HashMap<String, RelationshipList> relationMap() {
         return new HashMap<>();
     }
-
-
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class RelationshipList {
 
+
     public RelationshipList() {}
 
     public ArrayList<Relationship> relationships = new ArrayList<Relationship>();

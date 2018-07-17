@@ -60,11 +60,10 @@ public class DemoController {
                 ParsePackage parsePackage = new ParsePackage();
                 ArrayList<ClassDecration> classes = parsePackage.parseFilesInPackage(pathToFolder);
                 RelationshipList rl = parsePackage.setupRelationships(classes);
-                Thread.sleep(10000);
-
-
+                Thread.sleep(20000);
                 dataMap.put(token, classes);
                 relationMap.put(token,rl);
+
 
 //                RelationshipList rl = new RelationshipList();
 //                rl.getRelationshipListInPackage(parsePackage);
