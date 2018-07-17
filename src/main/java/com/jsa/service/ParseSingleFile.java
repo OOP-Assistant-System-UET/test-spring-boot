@@ -5,6 +5,7 @@ import org.eclipse.jdt.core.dom.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,18 +25,7 @@ public class ParseSingleFile {
         this.listClasses = listClasses;
     }
 
-    private int numberClass= 0;
-
-    public int getNumberClass() {
-        return numberClass;
-    }
-
-    public void setNumberClass(int numberClass) {
-        this.numberClass = numberClass;
-    }
-
-    int count = 0;
-    public void parseFile (String str) {
+    public ArrayList<ClassDecration> parseFile (String str) {
         ASTParser parser = ASTParser.newParser(AST.JLS3);
         parser.setSource(str.toCharArray());
         parser.setKind(ASTParser.K_COMPILATION_UNIT);
@@ -50,6 +40,7 @@ public class ParseSingleFile {
                 packageName = simpleName.getIdentifier();
             }
         }*/
+        ArrayList<ClassDecration> classes = new ArrayList<>();
         cu.accept(new ASTVisitor() {
             public boolean visit(TypeDeclaration node) {
                 ClassDecration cd = new ClassDecration();
@@ -119,12 +110,11 @@ public class ParseSingleFile {
                     }
                     cd.setSuperInterfaceName(interfaceNameList);
                 }
-
-                listClasses.add(cd);
-                numberClass++;
+                classes.add(cd);
                 return super.visit(node);
             }
         });
+        return classes;
     }
 
 

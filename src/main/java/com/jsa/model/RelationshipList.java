@@ -18,10 +18,6 @@ public class RelationshipList {
         this.relationships = relationships;
     }
 
-    public void getRelationshipListInPackage(ParsePackage p) {
-        this.relationships = p.setupRelationships();
-    }
-
 
     public void showRelationships() {
         if (this.relationships.size() == 0) {

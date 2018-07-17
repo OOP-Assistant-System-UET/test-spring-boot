@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.jsa.Unzip.Unzip;
+import com.jsa.model.ClassDecration;
 import com.jsa.model.RelationshipList;
 import com.jsa.service.ParsePackage;
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -31,7 +33,9 @@ public class DemoController {
     private TaskExecutor taskExecutor;
 
     @Autowired
-    private HashMap<String, ParsePackage> dataMap;
+    private HashMap<String, ArrayList<ClassDecration>> dataMap;
+    @Autowired
+    private HashMap<String, RelationshipList> relationMap;
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public ResponseEntity<Token> uploadOneFilHandlerPOST(Model model, @RequestParam("file")MultipartFile file) throws IOException {
@@ -54,11 +58,14 @@ public class DemoController {
                 System.out.println(file.getOriginalFilename());
                 pathToFolder = pathToFolder.replace("/", File.separator);
                 ParsePackage parsePackage = new ParsePackage();
-                parsePackage.parseFilesInPackage(pathToFolder);
-
+                ArrayList<ClassDecration> classes = parsePackage.parseFilesInPackage(pathToFolder);
+                RelationshipList rl = parsePackage.setupRelationships(classes);
                 Thread.sleep(10000);
 
-                dataMap.put(token, parsePackage);
+
+                dataMap.put(token, classes);
+                relationMap.put(token,rl);
+
 //                RelationshipList rl = new RelationshipList();
 //                rl.getRelationshipListInPackage(parsePackage);
             }

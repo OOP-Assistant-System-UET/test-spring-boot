@@ -1,5 +1,7 @@
 package com.jsa.controller;
 
+import com.jsa.model.ClassDecration;
+import com.jsa.model.RelationshipList;
 import com.jsa.service.ParsePackage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,13 +10,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @RestController
 public class DiagramController {
 
     @Autowired
-    private HashMap<String, ParsePackage> dataMap;
+    private HashMap<String, ArrayList<ClassDecration>> dataMap;
+    @Autowired
+    private HashMap<String, RelationshipList> relationMap;
 
     @RequestMapping(value="/classes",  method = RequestMethod.GET)
     public ResponseEntity<JsaResponse> getClasses(@RequestParam("token") String token) throws IOException {
@@ -22,18 +27,22 @@ public class DiagramController {
             return new ResponseEntity<>(JsaResponse.buildError("token is required"), HttpStatus.BAD_REQUEST);
         }
 
-        ParsePackage parsePackage = dataMap.get(token);
+        //ParsePackage parsePackage = dataMap.get(token);
+        ArrayList<ClassDecration> classes = dataMap.get(token);
+        RelationshipList relationshipList = relationMap.get(token);
 
-        if (parsePackage == null) {
+        if (classes == null || classes.isEmpty() || relationshipList == null) {
             return new ResponseEntity<>(
                     new JsaResponse("data is being processed", null),
                     HttpStatus.OK);
         }
+        else {
+            return new ResponseEntity<>(
+                    new JsaResponse("success", classes,relationshipList),
+                    HttpStatus.OK
+            );
+        }
 
-        return new ResponseEntity<>(
-                new JsaResponse("success", parsePackage),
-                HttpStatus.OK
-        );
     }
 
 
@@ -42,14 +51,19 @@ public class DiagramController {
 class JsaResponse {
     private boolean error = false;
     private String message;
-    private Object data;
+    private ArrayList<ClassDecration> data;
+    private Object relationship;
 
-    public JsaResponse(String message, Object data) {
+    public JsaResponse(String message, ArrayList<ClassDecration> data) {
         this.message = message;
         this.data = data;
     }
-
-    public JsaResponse(boolean error, String message, Object data) {
+    public JsaResponse(String message, ArrayList<ClassDecration> data, Object relationship) {
+        this.message = message;
+        this.data = data;
+        this.relationship = relationship;
+    }
+    public JsaResponse(boolean error, String message, ArrayList<ClassDecration> data) {
         this.error = error;
         this.message = message;
         this.data = data;
@@ -79,7 +93,15 @@ class JsaResponse {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(ArrayList<ClassDecration> data) {
         this.data = data;
+    }
+
+    public Object getRelationship() {
+        return relationship;
+    }
+
+    public void setRelationship(Object relationship) {
+        this.relationship = relationship;
     }
 }

@@ -23,7 +23,8 @@ public class GetJsonObject {
         ParsePackage pp = new ParsePackage();
         pp.parseFilesInPackage(packagePath);
         RelationshipList rl = new RelationshipList();
-        rl.getRelationshipListInPackage(pp);
+        //rl.getRelationshipListInPackage(pp);
+        rl = pp.setupRelationships(pp.getClasses());
         Gson gson = new Gson();
         String relationshipsJson = gson.toJson(rl);
 
