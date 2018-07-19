@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.jsa.service.FileService.readFileToString;
-@Service
-@Scope("request")
 public class ParsePackage {
 
     private ArrayList<ClassDecration> classes;
