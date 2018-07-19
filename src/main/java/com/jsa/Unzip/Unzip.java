@@ -3,6 +3,7 @@ package com.jsa.Unzip;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -33,6 +34,7 @@ public class Unzip {
     public Unzip(){
     }
     public void Unzip(){
+        String token = UUID.randomUUID().toString();
         final String OUTPUT_FOLDER = outputFolder;
         String FILE_PATH = pathToZipfile;
 
