@@ -60,7 +60,6 @@ public class DemoController {
                 ParsePackage parsePackage = new ParsePackage();
                 ArrayList<ClassDecration> classes = parsePackage.parseFilesInPackage(pathToFolder);
                 RelationshipList rl = parsePackage.setupRelationships(classes);
-                Thread.sleep(20000);
                 dataMap.put(token, classes);
                 relationMap.put(token,rl);
 
@@ -70,8 +69,6 @@ public class DemoController {
             }
             catch (IOException e) {
                 logger.error(e.getMessage());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         });
 
