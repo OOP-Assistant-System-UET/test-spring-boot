@@ -35,7 +35,7 @@ public class Unzip {
     }
     public void Unzip(){
         String token = UUID.randomUUID().toString();
-        final String OUTPUT_FOLDER = outputFolder+"/"+token;
+        final String OUTPUT_FOLDER = outputFolder+token+"/";
         String FILE_PATH = pathToZipfile;
 
         // Tạo thư mục Output nếu nó không tồn tại.
@@ -55,6 +55,7 @@ public class Unzip {
             // Duyệt từng Entry (Từ trên xuống dưới cho tới hết)
             while ((entry = zipIs.getNextEntry()) != null) {
                 String entryName = entry.getName();
+                System.out.println(entryName);
                 String outFileName = OUTPUT_FOLDER + entryName;
                 System.out.println("Unzip: " + outFileName);
 
