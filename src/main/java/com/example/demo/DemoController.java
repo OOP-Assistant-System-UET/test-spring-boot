@@ -39,7 +39,7 @@ public class DemoController {
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public ResponseEntity<Token> uploadOneFilHandlerPOST(Model model, @RequestParam("file")MultipartFile file) throws IOException {
-        final String pathName = "C:/output/";
+        final String pathName = "/tmp/";
 
         // generate token
         String token = UUID.randomUUID().toString();
