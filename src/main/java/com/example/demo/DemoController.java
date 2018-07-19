@@ -39,11 +39,11 @@ public class DemoController {
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public ResponseEntity<Token> uploadOneFilHandlerPOST(Model model, @RequestParam("file")MultipartFile file) throws IOException {
-
-        String token = UUID.randomUUID().toString();
-        final String pathName = "/"+token+"/";
-
         // generate token
+        String token = UUID.randomUUID().toString();
+
+        final String pathName = "/tmp/";
+
 
 
         taskExecutor.execute(() -> {
@@ -53,6 +53,7 @@ public class DemoController {
                     folder.mkdir();
                 }
                 File desFile = new File(pathName  +file.getOriginalFilename());
+                System.out.println(desFile);
                 file.transferTo(desFile);
                 Unzip unzip = new Unzip(pathName + file.getOriginalFilename(), pathName);
                 unzip.Unzip();
