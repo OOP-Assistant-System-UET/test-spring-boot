@@ -41,7 +41,7 @@ public class DemoController {
     public ResponseEntity<Token> uploadOneFilHandlerPOST(Model model, @RequestParam("file")MultipartFile file) throws IOException {
 
         String token = UUID.randomUUID().toString();
-        final String pathName = "/temp/"+token+"/";
+        final String pathName = "/"+token+"/";
 
         // generate token
 
