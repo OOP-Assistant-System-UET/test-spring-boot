@@ -42,7 +42,7 @@ public class DemoController {
         // generate token
         String token = UUID.randomUUID().toString();
 
-        final String pathName = "/tmp/";
+        final String pathName = "/tmp/"+ token + "/";
 
 
 
