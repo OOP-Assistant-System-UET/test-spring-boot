@@ -1,5 +1,7 @@
 package com.jsa.controller;
 
+import com.jsa.model.ClassDecration;
+import com.jsa.model.RelationshipList;
 import com.jsa.service.ParsePackage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,13 +10,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @RestController
 public class DiagramController {
 
     @Autowired
-    private HashMap<String, ParsePackage> dataMap;
+    private HashMap<String, ArrayList<ClassDecration>> dataMap;
+    @Autowired
+    private HashMap<String, RelationshipList> relationMap;
 
     @RequestMapping(value="/classes",  method = RequestMethod.GET)
     public ResponseEntity<JsaResponse> getClasses(@RequestParam("token") String token) throws IOException {
@@ -22,18 +27,23 @@ public class DiagramController {
             return new ResponseEntity<>(JsaResponse.buildError("token is required"), HttpStatus.BAD_REQUEST);
         }
 
-        ParsePackage parsePackage = dataMap.get(token);
+        //ParsePackage parsePackage = dataMap.get(token);
+        ArrayList<ClassDecration> classes = dataMap.get(token);
+        RelationshipList relationshipList = relationMap.get(token);
 
-        if (parsePackage == null) {
+        if (classes == null || classes.isEmpty() || relationshipList == null) {
             return new ResponseEntity<>(
                     new JsaResponse("data is being processed", null),
                     HttpStatus.OK);
         }
+        else {
+            Data data = new Data(dataMap.get(token),relationMap.get(token));
+            return new ResponseEntity<>(
+                    new JsaResponse("success", data),
+                    HttpStatus.OK
+            );
+        }
 
-        return new ResponseEntity<>(
-                new JsaResponse("success", parsePackage),
-                HttpStatus.OK
-        );
     }
 
 
@@ -81,5 +91,31 @@ class JsaResponse {
 
     public void setData(Object data) {
         this.data = data;
+    }
+
+}
+class Data {
+    private ArrayList<ClassDecration> classes;
+    private RelationshipList relationships;
+
+    public Data(ArrayList<ClassDecration> classes, RelationshipList rl) {
+        this.classes = classes;
+        this.relationships = rl;
+    }
+
+    public ArrayList<ClassDecration> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(ArrayList<ClassDecration> classes) {
+        this.classes = classes;
+    }
+
+    public RelationshipList getRelationships() {
+        return relationships;
+    }
+
+    public void setRelationships(RelationshipList relationships) {
+        this.relationships = relationships;
     }
 }

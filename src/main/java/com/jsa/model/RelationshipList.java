@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class RelationshipList {
 
+
     public RelationshipList() {}
 
     public ArrayList<Relationship> relationships = new ArrayList<Relationship>();
@@ -16,10 +17,6 @@ public class RelationshipList {
 
     public void setRelationships(ArrayList<Relationship> relationships) {
         this.relationships = relationships;
-    }
-
-    public void getRelationshipListInPackage(ParsePackage p) {
-        this.relationships = p.setupRelationships();
     }
 
 
