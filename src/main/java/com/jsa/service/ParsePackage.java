@@ -14,14 +14,13 @@ import java.util.ArrayList;
 import static com.jsa.service.FileService.readFileToString;
 public class ParsePackage {
 
-    private ArrayList<ClassDecration> classes;
-    private ArrayList<Relationship> relationships;
+    private ArrayList<ClassDecration> classes = new ArrayList<ClassDecration>();
+    private ArrayList<Relationship> relationships = new ArrayList<>();
     private int numberClass = 0;
 
     public ParsePackage() {
-        this.classes = new ArrayList<ClassDecration>();
-        this.relationships = new ArrayList<Relationship>();
     }
+
 
     public void setClasses(ArrayList<ClassDecration> classes) {
         this.classes = classes;
@@ -123,7 +122,7 @@ public class ParsePackage {
 
     public static void main(String[] args) throws IOException {
         ParsePackage p = new ParsePackage();
-        String packagePath = "C:\\Users\\Admin\\IdeaProjects\\studyJDT\\src\\main\\java";
+        String packagePath = "C:/output/bb8324ef-ada0-4037-bdcb-7a35e85f2749/src/main/java/service/test1";
         ArrayList<ClassDecration> classes = p.parseFilesInPackage(packagePath);
 
         for (ClassDecration cd : classes) {

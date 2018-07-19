@@ -42,7 +42,7 @@ public class DemoController {
         // generate token
         String token = UUID.randomUUID().toString();
 
-        final String pathName = "/tmp/";
+        final String pathName = "/tmp/"+ token + "/";
 
 
 
@@ -53,12 +53,11 @@ public class DemoController {
                     folder.mkdir();
                 }
                 File desFile = new File(pathName  +file.getOriginalFilename());
-                System.out.println(desFile);
                 file.transferTo(desFile);
                 Unzip unzip = new Unzip(pathName + file.getOriginalFilename(), pathName);
                 unzip.Unzip();
                 String pathToFolder = pathName + file.getOriginalFilename().substring(0, file.getOriginalFilename().length() - 4);
-                System.out.println(file.getOriginalFilename());
+                //System.out.println(file.getOriginalFilename());
                 pathToFolder = pathToFolder.replace("/", File.separator);
                 ParsePackage parsePackage = new ParsePackage();
                 ArrayList<ClassDecration> classes = parsePackage.parseFilesInPackage(pathToFolder);
